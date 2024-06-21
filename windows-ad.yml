@@ -1,0 +1,17 @@
+---
+- name: Install AD
+  hosts: windows-ad
+  tasks:
+    - name: Install AD
+      ansible.windows.win_feature:
+        name: AD-Domain-Services
+        include_management_tools: true
+        include_sub_features: true
+        state: present
+    - name: Promote server to DC
+      ansible.windows.win_domain_controller:
+        dns_domain_name: ansible.local
+        domain_admin_user: Administrator
+        domain_admin_password: "{{ _domain_admin_password_ }}"
+        safe_mode_password: "{{ _safe_mode_password_ }}"
+        state: domain_controller

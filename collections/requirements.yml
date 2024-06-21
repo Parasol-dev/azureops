@@ -1,5 +1,6 @@
 ---
 collections:
+  - name: cisco.ios
   - name: ansible.posix
     version: 1.4.0
 
