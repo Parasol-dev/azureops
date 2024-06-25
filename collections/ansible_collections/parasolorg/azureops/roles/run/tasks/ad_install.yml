@@ -1,0 +1,23 @@
+---
+- name: Install AD on windows server 2022 and then run security updates
+  hosts: windows
+  tasks:
+    - name: Install AD
+      ansible.windows.win_feature:
+        name: AD-Domain-Services
+        include_management_tools: true
+        include_sub_features: true
+        state: present
+    - name: Install AD-Domain-Services
+      ansible.windows.win_domain:
+        dns_domain_name: example.com
+        safe_mode_password: "{{ _safe_mode_password_ }}"
+    - name: Reboot after AD install
+      ansible.windows.win_reboot:
+    - name: Install Windows Updates
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+          - UpdateRollups
+        reboot: true
